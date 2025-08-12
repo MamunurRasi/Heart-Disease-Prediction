@@ -25,7 +25,7 @@
   <div class="container">
     <h1>Heart Disease Prediction</h1>
     <p>Designed by MD. Mamunur Rasid</p>
-    <p class="hint">Fill the patient features and press <strong>Predict</strong>. The frontend sends a POST to <code>/predict</code>.</p>
+    <p class="hint">Fill the patient features and press <strong>Predict</strong>.</p>
 
     <form id="predictForm">
       <!-- Numeric features -->
@@ -135,7 +135,10 @@
   <script>
     // Change this if your backend is at a different URL or port.
     // If serving frontend from same server, `"/predict"` is fine.
-    const apiUrl = 'http://localhost:8000/predict';
+    const apiUrl = window.location.hostname === 'localhost'
+  ? 'http://localhost:8000/predict'
+  : 'https://heart-disease-prediction-1-mhmc.onrender.com/predict';
+
 
     const form = document.getElementById('predictForm');
     const output = document.getElementById('outputArea');
@@ -160,7 +163,7 @@
       }
 
       try {
-        const res = await fetch('http://localhost:8000/predict', {
+        const res = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
